@@ -1,3 +1,107 @@
+/* Natalee style edits Sept. */
+
+.col-sm-2 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+.col-sm-4 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+
+.col-sm-6 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+.col-sm-8 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+
+.col-sm-10 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+.col-sm-12 {
+	outline: thin red dashed;
+	margin: 2%;
+}
+
+
+
+
+
+
+.col-md-2 {
+	outline: thin orange dashed;
+	margin: 2%;
+}
+
+.col-md-4 {
+	outline: thin orange dashed;
+	margin: 2%;
+}
+
+.col-md-6 {
+	outline: thin orange dashed;
+	margin: 2%;
+	
+}
+
+.col-md-8 {
+	outline: thin orange dashed;
+	margin: 2%;
+}
+
+.col-md-10 {
+	outline: thin orange dashed;
+	margin: 2%;
+}
+
+.col-md-12 {
+	outline: thin orange dashed;
+	margin: 2%;
+}
+
+.col-lg-2 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+.col-lg-4 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+.col-lg-6 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+
+.col-lg-8 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+.col-lg-10 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+.col-lg-12 {
+	outline: thin black dashed;
+	margin: 2%;
+}
+
+
+.floatright {
+	float: right;
+}
+
+
+
+
 /* ==========================================================================
    General Styles
    ========================================================================== */
@@ -1783,4 +1887,6 @@ ul.footer-list li a:hover {
     .navigation, .slider, .intro-image, footer { display: none; }
 
     .copyright, .footnav ul { text-align: center; }
+	
 }
+
