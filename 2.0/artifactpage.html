@@ -54,11 +54,11 @@
         <div class="row">
             <div class="span4 logo">
                 UW Cartography Lab
-            </div>
+            </div> <!-- end UWCart Logo/Header -->
             <div class="span8">
                 <nav class="mobile-center navigation">
                     <ul>
-                        <li><a href="index.html" class="selected">Home</a></li>
+                <li><a href="index.html" class="selected">Home</a></li>
                         <li><a href="innovation.html">Innovation</a>
                             <ul>
                                 <li><a href="innovation.html/#history">History</a></li>
@@ -76,25 +76,24 @@
 							<li><a href="innovation.html/#studentwork">Student Work</a></li>
 							<li><a href="innovation.html/#currentstudents">Current Students</a></li>
 							<li><a href="innovation.html/#alumni">Alumni</a></li>
-
-							</ul><li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header><!-- /header -->
+					</ul><li>
+          <li><a href="contact.html">Contact</a></li>
+      </ul><!-- end unordered list -->
+    </nav> <!-- end navigation -->
+  </div> <!-- end span8 -->
+</div><!-- end row class -->
+</div><!-- end container -->
+</header><!-- end header -->
 
     <body>
-	
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div id="navbar" class="navbar-collapse collapse">
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
-	
+
 <!-- 	<ol class="breadcrumb">
   <li class="breadcrumb-item active">Home</li>
 </ol>
@@ -114,28 +113,32 @@
         <h1>[FULL TITLE]</h1>
       </div>
     </div>
+		<!-- end jumbotron -->
 
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 col-lg-8">
-          <a2>[Authors][Authors][Authors]</a2>
-        </div>
-        <div class="col-sm-12 col-lg-8">
-          <a2>[Date][Tag][Tag][Tag]</a2>
-       </div>
-        <div class="col-sm-12 col-lg-8">
-          <h2>Description</h2>
-          <p>Short description of project's purpose, context, etc.</p>
-        </div>
-		
-		<div class="col-sm-12 col-lg-4 floatright">
+    <div class="container-fluid">
+				<div class="metadata col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        		<div class="authors col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          			<a2>[Authors][Authors][Authors]</a2>
+        		</div> <!-- /end authors -->
+        		<div class="col-lg-8 col-md-4 col-xs-6 outline">
+          			<a2>[Date][Tag][Tag][Tag]</a2>
+       			</div><!-- /end date/tag -->
+						</div><!-- /end metadata div-->
+</div><!-- /end container-fluid -->
+<div class = "container-fluid">
+<div class="description col-lg-8 col-md-8 col-sm-12 col-lg-12">
+		<h2>Description</h2>
+		<p>Short description of project's purpose, context, etc.</p>
+</div><!-- /end description -->
+</div><!-- /end container-fluid -->
+
+<div class="col-sm-12 col-lg-4 outline">
 		<a2>Preview of content goes here</a2>
 		<iframe> </iframe>
-      </div>
+</div><!-- /end content preview -->
 
-      <hr>
 
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>
@@ -144,7 +147,25 @@
 
     </body>
 
-</footer>
+		<footer>
+		    <div class="container">
+		        <div class="row-fluid">
+		            <div class="span3" style="padding-left:5%;">
+		                <h6>Site Directory</h6>
+		                <ul class="footer-list">
+		                    <li><a href="#">Innovation</a>
+		                        <ul>
+		                            <li><a href="#">History</a></li>
+		                            <li><a href="#">Research</a></li>
+		                        </ul>
+		                    </li>
+		                    <li><a href="#">Design</a></li>
+		                    <li><a href="#">Contact</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		</footer>
 
 <div class="container">
     <div class="row">
@@ -156,8 +177,6 @@
 </div><!--End Boxed Container-->
 
 <div class="scrollTop">
-	<a href="javascript:void(0);"><i class="icon-chevron-up"></i></a>
-</div>
 
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>

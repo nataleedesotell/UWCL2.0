@@ -1,101 +1,26 @@
-/* PROJECT PAGE/ARTIFACT PAGE CONTAINER STYLING */
-
-.col-sm-2 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-.col-sm-4 {
-	outline: thin black dashed;
-	margin: 2%;
+.outline {
+	border:black;
 }
 
-.col-sm-6 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-.col-sm-8 {
-	outline: thin black dashed;
-	margin: 2%;
+.description {
+	background:grey;
 }
 
-.col-sm-10 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-.col-sm-12 {
-	outline: thin black dashed;
-	margin: 2%;
+.metadata {
+	background:yellow;
 }
 
-
-.col-md-2 {
-	outline: thin black dashed;
-	margin: 2%;
+.authors {
+	background:green;
 }
 
-.col-md-4 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-md-6 {
-	outline: thin black dashed;
-	margin: 2%;
-	
-}
-
-.col-md-8 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-md-10 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-md-12 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-lg-2 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-lg-4 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-lg-6 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-
-.col-lg-8 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-lg-10 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
-.col-lg-12 {
-	outline: thin black dashed;
-	margin: 2%;
-}
-
+.floatleft (
+	float:left;
+	)
 
 .floatright {
-	float: right;
-}
-
-
+	float:right;
+	}
 
 
 /* ==========================================================================
@@ -278,7 +203,7 @@ blockquote.feed cite {
    ========================================================================== */
 .page-boxed {
     width: inherit;
-    max-width: 1250px;
+    max-width: 100%;
     margin: auto;
     background-color: #FFF;
 
@@ -1883,6 +1808,5 @@ ul.footer-list li a:hover {
     .navigation, .slider, .intro-image, footer { display: none; }
 
     .copyright, .footnav ul { text-align: center; }
-	
-}
 
+}
