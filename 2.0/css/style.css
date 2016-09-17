@@ -1,32 +1,44 @@
-.outline {
-	border:black;
+.description {
+	height: 300px;
 }
 
-.description {
-	background:grey;
+.personnel {
+	height: 150px;
+}
+.errata {
+	height: 150px;
+}
+
+.ref {
+	height: 1000px;
+}
+
+.author {
+	height: 30px;
+}
+
+.date {
+	height: 30px;
 }
 
 .metadata {
-	background:yellow;
-}
-
-.authors {
-	background:green;
 }
 
 .preview {
-	background:pink;
+	height:300px;
 }
 
-.floatleft (
+.floatleft {
 	float:left;
-	)
+}
 
 .floatright {
 	float:right;
 	}
 
-
+	.padding {
+		padding:2%;
+	}
 
 /* ==========================================================================
    General Styles
