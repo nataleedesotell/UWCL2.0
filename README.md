@@ -1,2 +1,2 @@
-# UWCL2.0
-2.0 version of the Cartography Lab website
+# uwcl.preview
+Github.io domain for testing new website designs

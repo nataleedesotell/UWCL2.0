@@ -1,0 +1,429 @@
+<html>
+
+<head>
+  <title>CartLab File Uploader</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<style>
+input.invalid, textarea.invalid{
+  border: 2px solid red;
+}
+
+input.valid, textarea.valid{
+  border: 2px solid green;
+}
+
+input.check,{
+  border: 2px solid orange;
+}
+
+.error{
+display: none;
+margin-left: 10px;
+}
+
+.error_show{
+color: red;
+margin-left: 10px;
+}
+.beta{
+  font-size: 50%;
+  font-weight: 300;
+}
+#file-error{
+  color: red;
+}
+#indexLink{
+  float:right;
+}
+footer{
+  text-align: center;
+}
+</style>
+</head>
+<body>
+  <a id='indexLink' href="/">Resource Search</a>
+<h1 class='page-header'>UWCL Resource Uploading Form <span class='text-success'><i class='beta'>beta</i></span></h1>
+  <div id='main' class='container col-xs-offset-2 col-xs-6'>
+  <h2 class='page-header'>The Resource</h4>
+  <label>File</label>
+  <input id='fileUpload' type='file' /><i class='invalid' id='file-error' style='display:none'>File Type Not Allowed</i><br / />
+    <label>Short Identifier <span class='text-muted'>no spaces</span></label><input type='text' id='resourceID' name='resourceID' class='form-control' placeholder='Roth_2009_CaGIS'/><br />
+    <label>Title</label><input type='text' id='resourceName' name='resourceName' class='form-control' placeholder="Addressing map interface usability: learning from the Lakeshore Nature Preserve interactive map."/><br />
+    <label>Date</label><input type='date' id='resourceCreationDate' name='resourceDate' class='form-control' val="1/1/2016" /><br />
+    <label>Category</label><select id='resourceCategory' class='form-control'>
+    </select> <br / />
+    <label>Description</label><textarea id='resourceDesc' placeholder='A really cool paper by @roberteroth.' class='form-control' ></textarea><br / />
+    <label>Tags <span class='text-muted'>comma separated list</span></label><input type="text" id='tags' name='tags' placeholder="maps, research, cool stuff" class='form-control' /><br / />
+    <label>URL <span class='text-muted'><i>if the application is dynamically hosted</i></span></label>
+    <input type='text' id='link' name='link' placeholder='http://myawesomewebsite.com/myproject' class='form-control' /><br/>
+  </br/>
+  <h2 class='page-header'>The Authors
+    <button id='addAuthor' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-plus'></span></button>
+    <button id='removeAuthor' class='btn btn-alert btn-sm'><span class='glyphicon glyphicon-minus'></span></button>
+  </h2>
+    <div id='authors'>
+
+    <label>First Author: </label><input type='text' id='authorFirst' class='authorFirst form-control' placeholder='Robert' />
+    <input type='text' id='authorMiddle' class='authorMiddle form-control' placeholder="E." />
+    <input type='text' id='authorLast' class='authorLast form-control' placeholder="Roth" />
+  </div>
+    <br />
+
+  <h2 class='page-header'>The References
+    <button id='addReference' class='btn btn-success btn-sm'><span class='glyphicon glyphicon-plus' ></span></button>
+    <button id='removeReference' class='btn btn-alert btn-sm'><span class='glyphicon glyphicon-minus' ></span></button>
+  </h2>
+  <div id='refs'>
+      <label>Published Reference</label><input type='text' class='form-control' id='ref1' placeholder='Roth, Robert E., and Mark Harrower. "Addressing map interface usability: learning from the Lakeshore Nature Preserve interactive map." Cartographic Perspectives 60 (2008): 46-66.' />
+  </div>
+  <br / />
+    <h2 class='page-header'>The Uploader</h4>
+  <label>Uploader Name</label><input type='text' class='form-control' id='uploaderName' placeholder="Your Name" /><br / />
+  <label>Uploader Email</label><input type='text' id='uploaderEmail' class='form-control' placeholder='you@wisc.edu' /><br / />
+
+
+  <br / />
+  <button id='submit' class='btn btn-primary btn-large'>Submit Form</button>
+</div>
+<footer class='col-xs-12'>
+  <address>
+Cartography Laboratory<br />
+University of Wisconsin-Madison<br />
+Madison, Wisconsin<br>
+USA
+</address>
+
+</footer>
+<script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <script>
+  globals = {}
+  globals.hosts = {
+    categories : "http://cartlabserver.shc.wisc.edu:8080/categories",
+    search : "http://cartlabserver.shc.wisc.edu:8080/search",
+    post : "http://cartlabserver.shc.wisc.edu:8080/upload",
+    mediaTypes : "http://cartlabserver.shc.wisc.edu:8080/mediatypes",
+    upload : "http://cartlabserver.shc.wisc.edu:8080/upload"
+  }
+  globals.authorCount = 1;
+  globals.refCount = 1;
+  $(document).ready(function(){
+    getAllowedMediaTypes(); // gets the list of media types
+    getCategories(true); // gets the categories list and populates the dropdown
+    setDate()
+    //actions
+    $("#submit").click(function(){
+      submit()
+    })
+    $("#addAuthor").click(function(){
+      //add another set of author fields
+      globals.authorCount += 1
+      html = "<div id='authorRow" + globals.authorCount + "''<label>Author " + globals.authorCount + ": </label><input type='text' id='authorFirst" + globals.authorCount + "' class='authorFirst form-control' placeholder='Robert' /><input type='text' id='authorMiddle" + globals.authorCount + "' class='authorMiddle form-control' placeholder='E.'' /> <input type='text' id='authorLast" + globals.authorCount + "' class='authorLast form-control' placeholder='Roth' />"
+      $("#authors").append(html)
+    })
+    $("#removeAuthor").click(function(){
+      //remove the author row if there are more than one on screen
+      tag = "#authorRow" + globals.authorCount
+      if (globals.authorCount > 1){
+        $(tag).remove()
+        globals.authorCount -= 1
+      }
+    })
+    $("#addReference").click(function(){
+      //add another reference field
+      globals.refCount += 1;
+      html = "<div id='refRow" + globals.refCount + "'><label>Published Reference " + globals.refCount + "</label><input type='text' id='ref" + globals.refCount + "' class='form-control'/></div>"
+      $("#refs").append(html)
+    })
+    $("#removeReference").click(function(){
+      tag = "#refRow" + globals.refCount
+      if (globals.refCount > 1){
+        $(tag).remove()
+        globals.refCount -=1
+      }
+    })
+  })
+
+
+
+  function submit(){
+    //get the form values
+    var resourceID = $("#resourceID").val()
+    var resourceName = $("#resourceName").val()
+    //get the first author, (required)
+    var firstAuthor = {
+      'first' : $("#authorFirst").val(),
+      'middle' : $("#authorMiddle").val(),
+      'last' : $("#authorLast").val()
+    }
+    authors = [firstAuthor]
+    //deal with multiple authors
+    for (var i=2; i <= globals.authorCount; i++){
+      firstTag = "#authorFirst" + i
+      middleTag = "#authorMiddle" + i
+      lastTag = "#authorLast" + i
+      author = {
+        'first' : $(firstTag).val(),
+        'middle' : $(middleTag).val(),
+        'last' : $(lastTag).val()
+      }
+      //check that there is really stuff in there
+      if ((author['first'] == "") || (author['last'] == "")){
+        console.log("Invalid author #" + i)
+      }else{
+        authors.push(author)
+      }
+
+    }
+    refs = []
+    for (var i = 1; i <= globals.refCount; i++){
+      tag = '#ref' + i
+      ref = $(tag).val()
+      refs.push(ref)
+    }
+    var resourceCreationDate = $("#resourceCreationDate").val()
+    console.log(resourceCreationDate)
+    var resourceCategory = $("#resourceCategory option:selected").text()
+    var tags = $("#tags").val()
+    var ref = $("#ref").val()
+    var resourceDescription = $("#resourceDesc").val()
+    var notes =$("#notes").val()
+    var uploaderName = $("#uploaderName").val()
+    var uploaderEmail = $("#uploaderEmail").val()
+    var resourceFilename = ""
+    var link = $("#link").val()
+    //format a metadata object to accompany the file
+    var tagList = tags.split(",")
+    var metadata = {
+      resourceID: resourceID,
+      resourceName: resourceName,
+      authors: authors,
+      creationDate: resourceCreationDate,
+      resourceCategory: resourceCategory,
+      tags: tagList,
+      references: refs,
+      resourceDescription: resourceDescription,
+      notes: notes,
+      uploader: {
+        name: uploaderName,
+        email: uploaderEmail
+      },
+      resourceFilename: resourceFilename,
+      link: link
+    }
+    //do form validation
+    if ($("#resourceID").hasClass('invalid') || ($("#resourceID").val() == "")){
+      $("#resourceID").addClass("invalid").removeClass("valid")
+      alert("Please enter a valid ResourceID String.")
+      return
+    }
+
+    if ($("#fileUpload").get(0).files.length == 0){
+      $("#fileUpload").addClass("invalid").removeClass("valid")
+      alert("Please specify a file.")
+      return
+    }
+
+    if($("#authorLast").hasClass("invalid")|| ($("#resourceID").val() == "")){
+      $("#authorLast").addClass("invalid").removeClass("valid")
+      alert("Please enter a valid author name.")
+      return
+    }
+    if ($("#uploaderName").hasClass("invalid") || ($("#uploaderName").val() == "")){
+      $("#uploaderName").addClass("invalid").removeClass("valid")
+      alert("Please enter your name as the uploader.")
+      return
+    }
+    if ($("#uploaderEmail").hasClass("invalid") || ($("#uploaderEmail").val() == "")){
+      $("#uploaderEmail").addClass("invalid").removeClass("valid")
+      alert("Please enter your email, so we can contact you about this submission if we have any questions.")
+      return
+    }
+    confirmString = ""
+    doConfirm = false
+    if ($("#resourceName").val() == ""){
+      doConfirm = true;
+      confirmString += '-- Resource Name\n'
+      $("#resourceName").addClass('check').removeClass("invalid").removeClass('valid')
+    }
+    if ($("#resourceDescription").val() == ""){
+      doConfirm = true;
+      confirmString += "-- Resource Description\n"
+      $("#resourceDescription").addClass('check').removeClass("invalid").removeClass('valid')
+    }
+    if ($("#tags").val() == ""){
+      doConfirm = true;
+      confirmString += "-- Tags\n"
+      $("#tags").addClass('check').removeClass("invalid").removeClass('valid')
+    }
+    if ($("#ref1").val() == ""){
+      doConfirm = true;
+      confirmString += "-- Reference\n"
+      $("#ref1").addClass('check').removeClass("invalid").removeClass('valid')
+    }
+
+    if (doConfirm){
+      s = "It looks like this submission is missing the following:\n"
+      s += confirmString
+      s += "Are you sure you want to continue?"
+      c = confirm(s)
+    }else{
+      c = true
+    }
+    console.log(c)
+    if (c){
+      //deal with the file upload
+      var files = $("#fileUpload").get(0).files;
+      //only upload if there is a file present, otherwise we'll have random metadata and no one wants that
+      if (files.length > 0){
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          if (globals.mediaChecklist.indexOf(file.type) == -1){
+            $('#fileUpload').addClass("invalid")
+            $("#file-error").show();
+            return
+          }
+          metadata['resourceMimeType'] = file.type
+          metadata['resourceSize'] = file.size
+          metadata['resourceFilename'] = file.name
+          var metastring = JSON.stringify(metadata)
+          // add the files to formData object for the data payload
+          formData.append('uploads[]', file, file.name);
+          formData.append('metadata', metastring)
+        }
+        $.ajax({
+          url: globals.hosts.upload,
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data){
+              if (data['success']){
+                console.log("Upload successful.")
+                window.location.href = "uploadComplete.html"
+              }
+          },
+          error: function(xhr, status, error){
+            window.location.href =  '500.html'
+          }
+        });
+      }
+    }
+  }
+
+  function getAllowedMediaTypes(){
+    //get the list of media types that we are allowed to upload to the server
+    $.getJSON(globals.hosts.mediaTypes, function(data){
+      globals.mediaTypes = data['data']
+      globals.mediaChecklist = []
+      for (var i=0; i<globals.mediaTypes.length; i++){
+        mime = globals.mediaTypes[i]['mimetype']
+        globals.mediaChecklist.push(mime)
+      }
+    })
+  }
+
+  function getCategories(populate){
+    $.getJSON(globals.hosts.categories, function(data){
+      globals.categories = data
+      if (populate){
+        //populate the dropdown menu
+        $("#resourceCategory").empty()
+        categoryData = data['data']
+        for (var i = 0; i < categoryData.length; i++){
+          html = "<option value='" +categoryData[i]['categorytext'] + "'>" + categoryData[i]['categorytext'] + "</option>"
+          $("#resourceCategory").append(html)
+        }
+      }
+    })
+  }
+
+  function setDate(){
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+    $('#resourceCreationDate').val(today);
+  }
+
+$("#fileUpload").change(function(){
+  var files = $("#fileUpload").get(0).files;
+  var file = files[0]
+  console.log(globals.mediaChecklist.indexOf(file.type))
+  if (globals.mediaChecklist.indexOf(file.type) == -1){
+    $('#fileUpload').addClass("invalid").removeClass('valid')
+    $("#file-error").show();
+  }else{
+    $("#fileUpload").removeClass("invalid").addClass('valid')
+    $("#file-error").hide();
+  }
+})
+
+//do all of the form validation
+$("#resourceID").on("input", function(){
+  //check to see if there is whitespace
+  input = $(this)
+  s = input.val()
+  if (hasWhiteSpace(s)){
+    input.removeClass('valid').addClass('invalid')
+  }else{
+    input.addClass("valid").removeClass('invalid')
+  }
+})
+
+$("#resourceName").on('input', function(){
+  //just check existance
+  input = $(this)
+  s = input.val()
+  if (!s){
+    input.removeClass('valid').addClass('invalid')
+  }else{
+    input.addClass("valid").removeClass('invalid')
+  }
+})
+
+$("#authorLast").on("input", function(){
+  //just check to make sure there is at least one name associated with this resourceID
+  input = $(this)
+  s = input.val()
+  if (!s){
+    input.removeClass('valid').addClass('invalid')
+  }else{
+    input.addClass("valid").removeClass('invalid')
+  }
+})
+
+$("#uploaderName").on('input', function(){
+  input = $(this)
+  s = input.val()
+  if (!s){
+    input.removeClass('valid').addClass('invalid')
+  }else{
+    input.addClass("valid").removeClass('invalid')
+  }
+})
+
+
+// Email must be an email
+$('#uploaderEmail').on('input', function() {
+	var input=$(this);
+	var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+	var is_email=re.test(input.val());
+	if(is_email){input.removeClass("invalid").addClass("valid");}
+	else{input.removeClass("valid").addClass("invalid");}
+});
+
+
+
+function hasWhiteSpace(s) {
+  return s.indexOf(' ') >= 0;
+}
+  </script>
+</body>
+</html>

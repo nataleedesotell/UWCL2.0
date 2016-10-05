@@ -9,10 +9,11 @@
     var $window = $(window)
 
     // Disable certain links in docs
-    $('section [href^=#]').click(function (e) {
-      e.preventDefault()
-    })
-        
+    //SCOTT: I DON'T KNOW WHAT THIS DOES BUT IT ERRORS OUT SO I COMMENTED IT AWAY
+    // $('section [href^=#]').click(function (e) {
+    //   e.preventDefault()
+    // })
+
     $('#myTab a').click(function (e) {
       e.preventDefault();
       $(this).tab('show');
@@ -28,97 +29,97 @@
       $(this).parents('.add-on')[method]('active')
     })
 
-    // tooltip 
+    // tooltip
     $('.tooltip').tooltip({
       selector: "a[rel=tooltip]"
     })
     $("[rel=tooltip]").tooltip();
-        
+
     // alert boxes
-    $(".alert").alert()    
-    
+    $(".alert").alert()
+
     // popover
     $('.popover').popover()
 
-    // popover 
+    // popover
     $("a[rel=popover]")
       .popover()
       .click(function(e) {
         e.preventDefault()
       })
 
-    // carousel         
+    // carousel
     $('#myCarousel').carousel({
         pause: "false"
     });
 
-    // parallax         
+    // parallax
     $('#parallax').carousel();
 })
 
 }(window.jQuery)
-    
+
 /* #FIXED HEADER
 ================================================== */
 
 $(function($){
-    
+
     function is_touch_device() {
-        return !!('ontouchstart' in window) // works on most browsers 
+        return !!('ontouchstart' in window) // works on most browsers
         || !!(window.navigator.msMaxTouchPoints); // works on ie10
     };
-    
+
     var window_y = 0;
     var header_height = $("#header").height() + 0;
-    var scroll_position = parseInt(header_height + header_height/2);    	
+    var scroll_position = parseInt(header_height + header_height/2);
     window_y = $(window).scrollTop();
-	
-    if ( (window_y > scroll_position) && !(is_touch_device()) ) 
+
+    if ( (window_y > scroll_position) && !(is_touch_device()) )
         set_static_header();
-	
+
     function set_static_header(){
         window_y = $(window).scrollTop();
         if (window_y > scroll_position) {
             if (!($("#header").hasClass("static"))){
-                $("#header").hide();               
+                $("#header").hide();
                 $("#header").addClass("static").css("top", '0');
                 $("#header").fadeIn(500);
             }
-				
+
         } else {
             if (($("#header").hasClass("static"))){
                 $("#header").fadeOut(500, function(){
                     $("#header").removeClass("static");
-                    
+
                     $("#header").fadeIn(300);
                 });
             }
         }
     }
-	
+
     $(window).scroll(function(){
-        if (!(is_touch_device())) 
+        if (!(is_touch_device()))
             set_static_header();
     });
-    
+
 });
 
 /* #QUICKSAND
 ================================================== */
 
 $(document).ready(function(){
-    
+
     $("a[rel^='prettyPhoto']").prettyPhoto();
-    
-    /* Pretty photo */ 
+
+    /* Pretty photo */
     if(jQuery().prettyPhoto) {
-        piPrettyphoto(); 
+        piPrettyphoto();
     }
-    
+
     function piPrettyphoto(){
         $("a[data-gal^='prettyPhoto']").prettyPhoto();
-    }    
-    	
+    }
+
     // get the action filter option item on page load
     var $filterType = $('#portfolio-filter li.active a').attr('class');
 
@@ -145,7 +146,7 @@ $(document).ready(function(){
         if ($filterType == 'all') {
             // assign all li items to the $filteredData var when
             // the 'All' filter option is clicked
-                       
+
             var $filteredData = $data.children('li');
         }
         else {
@@ -164,11 +165,11 @@ $(document).ready(function(){
         });
         return false;
     });
-    
-             
+
+
 });
 
-    
+
 /* BACK TO TOP
 ================================================== */
 $(window).bind('scroll', function(){
@@ -257,6 +258,3 @@ $(function() {
     Page.init();
 
 });
-
-
-				   

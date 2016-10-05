@@ -1,0 +1,239 @@
+<html>
+  <head>
+    <title>CartLabDB Resource Authorization</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<style>
+html, body{
+  height: 100%;
+  max-height: 100% !important;
+}
+#main{
+  height: 100%;
+}
+#resourceDiv{
+  height:100%
+}
+  #theFile{
+    height: 75%;
+    width: 100%;
+  }
+</style>
+  </head>
+
+  <body>
+    <header>
+      You Are Logged In As: <span class='text-muted' id='authUserName'>scottsfarley</span>
+    </header>
+    <div id='main' class='container'>
+    <h1 class='page-header'>CartLabDB Resource Authorization</h1>
+    <h4 style="{color: orange}">Remaining: <span class='text-muted' id='remaining'></span></h4>
+    <div class='col-xs-4'>
+      <button class='btn-large btn btn-success' id='approveButton'><span class='glyphicon glyphicon-check'></span>Approve</button>
+      <button class='btn-large btn btn-danger' id='rejectButton'><span class='glyphicon glyphicon-remove'></span>Reject</button>
+      <h3>Resource Number: <span class='text-muted' id='resourceNumber'></span></h3>
+      <label>Resource ID: </label><span class='text-muted' id='resourceIDText'></span> <br / />
+      <label>Resource Title: </label><span class='text-muted' id='resourceTitle' ></span><br />
+      <label>Resource Creation: </label><span class='text-muted' id='resourceDate' ></span><br />
+      <div id='authors'>
+
+      </div>
+      <label>Category: </label><span class='text-muted' id='resourceCategory'></span> <br />
+      <label>Resource Description</label><br / />
+      <p id='resourceDescription'></p><br / />
+      <div id='references'>
+
+      </div>
+      <hr />
+      <label>Resource Media Type: </label><span class='text-muted' id='resourceMediaType'></span><br / />
+      <label>File Name: </label><span class='text-muted' id='resourceFilename'></span><br />
+      <label>File Size: </label><span class='text-muted' id='resourceSize'></span><br />
+      <label>Uploader Name: </label><span class='text-muted' id='uploaderName'></span><br / />
+      <label>Uploader Email: </label><span class='text-muted' id='uploaderEmail'></span><br />
+      <label>Upload Date: </label><span class='text-muted' id='lastModified'></span><br />
+    </div>
+    <div class='col-xs-8' id='resourceDiv'>
+    </div>
+
+  </div>
+    <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script>
+    globals = {}
+    globals.hosts = {
+      categories : "http://cartlabserver.shc.wisc.edu:8080/categories",
+      mediaTypes : "http://cartlabserver.shc.wisc.edu:8080/mediatypes",
+      random: "http://cartlabserver.shc.wisc.edu:8080/unauthorizedResource",
+      filePrefix: "http://cartlabserver.shc.wisc.edu:8080/",
+      approve: "http://cartlabserver.shc.wisc.edu:8080/approve",
+      reject: "http://cartlabserver.shc.wisc.edu:8080/reject",
+      stats: "http://cartlabserver.shc.wisc.edu:8080/resourceStatistics"
+    }
+    globals.currentResourceID = null;
+    $(document).ready(function(){
+      //getCategories(true) //populate the dropdown with available options
+      getNewResource(true)
+      $("#approveButton").click(function(){
+        console.log("Approving.")
+        approveResource(true)
+      })
+      $("#rejectButton").click(function(){
+        console.log("Rejecting.")
+        rejectResource(true);
+      })
+      getNumEmbargo(true) // get the number of embargoed files left to approve
+    })
+
+    function getNewResource(populate){
+      //gets an unauthorized resource and (if populate is true) populates the page with its details
+      //get the details
+      //will choose a randomly ordered
+      console.log("Getting new resource")
+      $.getJSON(globals.hosts.random, function(data){
+        if (populate){
+          if (data.data.length == 0){
+            alert("No valid resources found.")
+          }else{
+            populateFields(data.data)
+          }
+        }
+      })
+    }
+
+    function clearForm(){
+      $("#resourceNumber").text("")
+      globals.currentResourceID = null
+      $("#resourceIDText").text("")
+      $("#resourceTitle").text("")
+      $("#resourceDate").text("")
+      $("#resourceCategory").text("")
+      $("#authors").text("")
+      $("#resourceDescription").text("")
+      $("#references").text("")
+      //add the file properties (static)
+      $("#resourceMediaType").text("")
+      $("#resourceFilename").text("")
+      $("#resourceSize").text("")
+      $("#uploaderName").text("")
+      $("#uploaderEmail").text("")
+      //set the file source so it displays in the window
+      $("#resourceDiv").empty()
+    }
+
+    function populateFields(metadata){
+      //just drop the data into the correct spots in the form
+      console.log(metadata)
+      $("#resourceNumber").text(metadata['resourceid'])
+      globals.currentResourceID = metadata['resourceid']
+      $("#resourceIDText").text(metadata['resourcename'])
+      $("#resourceTitle").text(metadata['resourcetitle'])
+      //format the date in the right way
+      rDate = new Date(metadata['resourcedate'])
+      d = rDate.getFullYear() + "-" + ("0" + (rDate.getMonth() + 1)).slice(-2) + "-" + ("0" + rDate.getDate()).slice(-2);
+      $("#resourceDate").text(d)
+      console.log(metadata['categorytext'])
+      $("#resourceCategory").text(metadata['categorytext'])
+      //add all the authors
+      for (var i=0; i< metadata.authors.length; i++){
+        j = i + 1
+        thisAuthor = metadata.authors[i]
+        console.log(thisAuthor)
+        s = "<b>Author " + j + ":</b><span class='text-muted'>" + thisAuthor.authorfirst + " " + thisAuthor.authormiddle + " " + thisAuthor.authorlast + "</span>"
+        s += "<br/>"
+        $("#authors").append(s)
+      }
+      $("#resourceDescription").text(metadata['resourcedescription'])
+      //add all the references
+      if (metadata.references.length == 0){
+        $("#references").append("<label>No References Found</label>")
+      }else{
+        for (var i=0; i< metadata.references.length; i++){
+          thisReference = metadata.refrences[i]
+          $("#references").append(thisReference.rawref)
+        }
+      }
+      //add the file properties (static)
+      $("#resourceMediaType").text(metadata['description'] + " (" + metadata['mimetype'] + ")")
+      $("#resourceFilename").text(metadata['objectreference'])
+      $("#resourceSize").text(formatBytes(metadata['objectsize'], 2))
+      $("#uploaderName").text(metadata['uploadername'])
+      $("#uploaderEmail").text(metadata['uploaderemail'])
+      //set the file source so it displays in the window
+      fileString = globals.hosts.filePrefix + metadata['objectreference']
+      $("#resourceDiv").empty()
+      $("#resourceDiv").append("<embed id='theFile' src='" + fileString + "' />")
+    }
+
+    function getCategories(populate){
+      $.getJSON(globals.hosts.categories, function(data){
+        globals.categories = data
+        if (populate){
+          //populate the dropdown menu
+          $("#resourceCategory").empty()
+          categoryData = data['data']
+          for (var i = 0; i < categoryData.length; i++){
+            html = "<option value='" +categoryData[i]['categorytext'] + "'>" + categoryData[i]['categorytext'] + "</option>"
+            $("#resourceCategory").append(html)
+          }
+        }
+      })
+    }
+
+    function approveResource(getNext){
+      //approve the resource in the database
+      //if the getNext property is set, advance to the next resource
+      url = globals.hosts.approve + "/" + globals.currentResourceID
+      $.getJSON(url, function(data){
+        alert("Resource has been approved.")
+        if (getNext){
+          console.log("Getting next resource.")
+          getNumEmbargo(true)
+          clearForm()
+          getNewResource(true)
+        }
+      })
+    }
+
+    function rejectResource(getNext){
+      //approve the resource in the database
+      //if the getNext property is set, advance to the next resource
+      url = globals.hosts.reject + "/" + globals.currentResourceID
+      $.getJSON(url, function(){
+        alert("Resource has been rejected.")
+        if (getNext){
+          getNumEmbargo(true)
+          clearForm()
+          getNewResource(true)
+        }
+      })
+    }
+
+    function formatBytes(bytes,decimals) {
+      //format file sizes
+       if(bytes == 0) return '0 Byte';
+       var k = 1000; // or 1024 for binary
+       var dm = decimals + 1 || 3;
+       var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+       var i = Math.floor(Math.log(bytes) / Math.log(k));
+       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    function getNumEmbargo(show){
+      //get the number of embargoed files left to approve
+      $.getJSON(globals.hosts.stats, function(data){
+        if (data['success']){
+          globals.remaining = data['data']['embargoed']
+          if(show){
+            $("#remaining").text(globals.remaining)
+          }
+        }else{
+          console.log(data['error'])
+        }
+      })
+    }
+    </script>
+  </body>
+
+</html>
