@@ -2,9 +2,6 @@
 	height: 300px;
 }
 
-.personnel {
-	height: 150px;
-}
 .errata {
 	height: 150px;
 }
@@ -37,8 +34,13 @@
 	}
 
 	.padding {
-		padding:2%;
+		padding-left:5%;
+		padding-right:2%;
+		margin-left:10px;
+		margin-right:10px;
+
 	}
+
 
 /* ==========================================================================
    General Styles
@@ -1666,7 +1668,7 @@ ul.footer-list li a:hover {
 }
 
 /* Tablet Portrait size to standard 960 (devices and browsers) */
-@media only screen and (min-width: 768px) and (max-width: 959px) {
+@media only screen and (min-width: 1500px) and (max-width: 1500px) {
 	body { width: auto; margin: 0; }
 	.container { margin: 0; }
 	.row { width: 100%; margin-left: auto; margin-right: auto;}
@@ -1685,7 +1687,7 @@ ul.footer-list li a:hover {
 }
 
 /* All Mobile Sizes (devices and browser) */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1500px) {
 	body { width: auto; margin: 0; }
 	.row { width: 90%; margin-left: auto; margin-right: auto;}
 	.mobile-only {width: auto; display: block;}
