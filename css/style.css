@@ -43,6 +43,20 @@
 
 	}
 
+	/* navbar */
+.navbar-default {
+    background-color: white;
+    border-color: white;
+		height: 100px;
+}
+
+.navbar-collapse {
+    background-color: white;
+    border-color: white;
+		height: 100px;
+		font-size: 2em;
+		padding-top: 1%;
+}
 
 
 /* ==========================================================================
@@ -225,8 +239,8 @@ blockquote.feed cite {
    ========================================================================== */
 .page-boxed {
     max-width: 100%;
-    margin-left: 2%;
-		margin-right: 2%;
+    margin-left: 4%;
+		margin-right: 4%;
     background-color: white;
 
     -webkit-box-shadow:0 0 15px rgba(0,0,0,0.3);
@@ -288,6 +302,10 @@ blockquote.feed cite {
 }
 
 
+/*
+* Custom Button
+*/
+
 a.button {
         background-color: #b70101;
         color: #FFF;
@@ -332,6 +350,8 @@ a.button {
     a.button_small i {
         margin-right: 8px;
     }
+
+
 
 
 /* ==========================================================================
