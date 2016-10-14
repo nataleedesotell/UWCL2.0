@@ -224,10 +224,10 @@ blockquote.feed cite {
    Commonly used Classes
    ========================================================================== */
 .page-boxed {
-    width: inherit;
     max-width: 100%;
-    margin: auto;
-    background-color: #FFF;
+    margin-left: 2%;
+		margin-right: 2%;
+    background-color: white;
 
     -webkit-box-shadow:0 0 15px rgba(0,0,0,0.3);
     -moz-box-shadow: 0 0 15px rgba(0,0,0,0.3);
