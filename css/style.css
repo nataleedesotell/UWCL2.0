@@ -47,7 +47,7 @@
 .navbar-default {
     background-color: white;
     border-color: white;
-		height: 100px;
+		height: 15%;
 }
 
 .navbar-collapse {
@@ -464,7 +464,7 @@ nav.navigation ul li ul {
     left: auto;
     right: -100px;
     top: 80px;
-    width: 200px;
+    width: 400px;
     z-index: 9999;
 
     background-color: #FFF;
