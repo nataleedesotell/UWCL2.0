@@ -413,7 +413,7 @@ nav.navigation ul li:last-child {
 nav.navigation ul li a {
 	display: block;
 	font-family: 'Yanone Kaffeesatz', sans-serif;
-	font-size: 18px;
+	font-size: 24px;
     font-weight: 400;
 	color: #666666;
 	text-transform: uppercase;
